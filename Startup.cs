@@ -39,9 +39,9 @@ namespace VEMS.API
             services.AddIdentityConfiguration();
             services.AddAuthenticationConfiguration(configuration);
             services.AddAuthorizationConfiguration();
+            services.AddSwaggerConfiguration();
 
             //TO-DO Add the ext method to inject the Entities services
-            //and the swagger configuration
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +51,11 @@ namespace VEMS.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Vistex API");
+            });
 
             app.UseRouting();
             app.UseCors("APIPolicy");
