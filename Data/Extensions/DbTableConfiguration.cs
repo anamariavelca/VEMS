@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VEMS.API.Models.Entities;
+using VEMS.API.Models.Identity;
 
 namespace VEMS.API.Data.Extensions
 {
@@ -129,6 +130,27 @@ namespace VEMS.API.Data.Extensions
                 .HasMany<UserAnswer>(ue => ue.UserAnswers)
                 .WithOne(ua => ua.UserExam)
                 .HasForeignKey(ua => ua.UserExamId);
+        }
+
+        public static void SeedDB(this ModelBuilder modelBuilder)
+        {
+            //Default Roles
+            var roles = new[]
+            {
+                new ApplicationRole
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Teacher",
+                    NormalizedName = "TEACHER"
+                },
+                new ApplicationRole
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Student",
+                    NormalizedName = "STUDENT"
+                }
+            };
+            modelBuilder.Entity<ApplicationRole>().HasData(roles);
         }
     }
 }

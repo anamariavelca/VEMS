@@ -25,6 +25,8 @@ namespace VEMS.API.Data
 
             builder.ApplyIdentityTableConfiguration();
             builder.ApplyDbTableConfiguration();
+
+            builder.SeedDB();
         }
     }
 }

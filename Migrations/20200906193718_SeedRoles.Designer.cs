@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VEMS.API.Data;
 
 namespace VEMS.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200906193718_SeedRoles")]
+    partial class SeedRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -263,17 +265,17 @@ namespace VEMS.API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("add468b6-1112-4516-8d94-c0a6ce40c3c9"),
-                            ConcurrencyStamp = "bf319a3b-1a6d-48de-b22f-39d020d598d0",
-                            Name = "Teacher",
-                            NormalizedName = "TEACHER"
+                            Id = new Guid("29459ed2-cec3-46fc-a712-d6beb4b42a2c"),
+                            ConcurrencyStamp = "6e7458a9-99ed-4072-a39e-cd56ba5c4a68",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = new Guid("eb4479e2-4b44-48da-9f5e-262f41f5b94d"),
-                            ConcurrencyStamp = "f141dc80-983d-493b-a5eb-773bcfd976e4",
-                            Name = "Student",
-                            NormalizedName = "STUDENT"
+                            Id = new Guid("a38c40da-d3c9-46ce-94ba-b8fe0daa4c62"),
+                            ConcurrencyStamp = "ccb3ed71-ec84-4709-a3f2-a68c05489383",
+                            Name = "User",
+                            NormalizedName = "USER"
                         });
                 });
 
