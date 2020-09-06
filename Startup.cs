@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using VEMS.API.Data;
 using VEMS.API.Models.Identity;
+using VEMS.API.Services.Extensions;
 
 namespace VEMS.API
 {
@@ -34,43 +35,13 @@ namespace VEMS.API
         {
 
             services.AddControllers();
+            services.AddDbContextConfiguration(configuration);
+            services.AddIdentityConfiguration();
+            services.AddAuthenticationConfiguration(configuration);
+            services.AddAuthorizationConfiguration();
 
-            //Enables EntityFramework
-            services.AddDbContext<ApplicationDbContext>(options =>
-            {
-                options.UseSqlServer(configuration.GetConnectionString("Main"));
-            });
-
-            //Enable the Identity layer, which allows to create users and logins
-            services.AddIdentity<ApplicationUser, ApplicationRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-
-            //Activate Authentication Layer, this layer authenticates the token sent to the request
-            services.AddAuthentication(options =>
-            {
-                //Enable JWT Bearer token
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-
-                options.RequireAuthenticatedSignIn = false;
-            }).AddJwtBearer(options =>
-            {
-                //How to validate the token
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    //TO-DO set to false after checking the login works
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = configuration["Jwt:Issuer"],
-                    ValidAudience = configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"])),
-                    ClockSkew = TimeSpan.Zero
-                };
-            });
+            //TO-DO Add the ext method to inject the Entities services
+            //and the swagger configuration
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,6 +53,7 @@ namespace VEMS.API
             }
 
             app.UseRouting();
+            app.UseCors("APIPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
 
